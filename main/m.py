@@ -1,8 +1,21 @@
-#!/usr/bin/env python
+# -*- coding:utf8 -*-
+# !/usr/bin/env python
+# Copyright 2017 Google Inc. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 from __future__ import print_function
 from future.standard_library import install_aliases
-
 install_aliases()
 
 from urllib.parse import urlparse, urlencode
@@ -30,72 +43,24 @@ def webhook():
     res = processRequest(req)
 
     res = json.dumps(res, indent=4)
+    # print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
 
 
 def processRequest(req):
-    print("Request:")
-    print(json.dumps(req, indent=4))
-    if req.get("result").get("action") == "yahooWeatherForecast":
-        baseurl = "https://query.yahooapis.com/v1/public/yql?"
-        yql_query = makeYqlQuery(req)
-        if yql_query is None:
-            return {}
-        yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
-        result = urlopen(yql_url).read()
-        data = json.loads(result)
-        res = makeWebhookResult(data)
-    elif req.get("result").get("action") == "getAtomicNumber":
-        data = req
-        res = makeWebhookResultForGetAtomicNumber(data)
-    elif req.get("result").get("action") == "getChemicalSymbol":
-        data = req
-        res = makeWebhookResultForGetChemicalSymbol(data)
-    else:
+    if req.get("result").get("action") != "yahooWeatherForecast":
         return {}
+    baseurl = "https://query.yahooapis.com/v1/public/yql?"
+    yql_query = makeYqlQuery(req)
+    if yql_query is None:
+        return {}
+    yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
+    result = urlopen(yql_url).read()
+    data = json.loads(result)
+    res = makeWebhookResult(data)
     return res
-
-
-def makeWebhookResultForGetChemicalSymbol(data):
-    element = data.get("result").get("parameters").get("elementname")
-    chemicalSymbol = 'Unknown'
-    if element == 'Carbon':
-        chemicalSymbol = 'C'
-    elif element == 'Hydrogen':
-        chemicalSymbol = 'H'
-    elif element == 'Nitrogen':
-        chemicalSymbol = 'N'
-    elif element == 'Oxygen':
-        chemicalSymbol = 'O'
-    speech = 'The chemial symbol of ' + element + ' is ' + chemicalSymbol
-
-    return {
-        "speech": speech,
-        "displayText": speech,
-        "source": "webhookdata"
-    }
-
-
-def makeWebhookResultForGetAtomicNumber(data):
-    element = data.get("result").get("parameters").get("elementname")
-    atomicNumber = 'Unknown'
-    if element == 'Carbon':
-        atomicNumber = '6'
-    elif element == 'Hydrogen':
-        atomicNumber = '1'
-    elif element == 'Nitrogen':
-        atomicNumber = '7'
-    elif element == 'Oxygen':
-        atomicNumber = '8'
-    speech = 'The atomic number of ' + element + ' is ' + atomicNumber
-
-    return {
-        "speech": speech,
-        "displayText": speech,
-        "source": "webhookdata"
-    }
 
 
 def makeYqlQuery(req):
@@ -133,8 +98,8 @@ def makeWebhookResult(data):
 
     # print(json.dumps(item, indent=4))
 
-    speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
-             ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
+    speech = "Today the weather in " + location.get('city') + ": " + condition.get('text') + \
+             ", And the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
     print("Response:")
     print(speech)
