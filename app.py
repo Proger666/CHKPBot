@@ -49,17 +49,28 @@ def webhook():
     return r
 
 
+def get_model(reqParam):
+    model = None
+    inetSpeed=reqParam.get("inet_speed")
+    users = reqParam.get("users")
+    dmz_speed = reqParam.get("text")
+    return dmz_speed
+
+
 def processRequest(req):
-    if req.get("result").get("action") != "yahooWeatherForecast":
+    if req.get("result").get("action") == "yahooWeatherForecast":
         return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
+
+    ##
+    #baseurl = "https://query.yahooapis.com/v1/public/yql?"
     yql_query = makeYqlQuery(req)
-    if yql_query is None:
-        return {}
-    yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
-    result = urlopen(yql_url).read()
+    result = None
+    reqParam = req.get("result").get("parameters")
+    if req.get("result").get("action") == "sizing":
+        sizing = get_model(reqParam)
+        result = {'result':sizing}
     data = json.loads(result)
-    res = makeWebhookResult(data)
+    res = makeWebhookResult(result)
     return res
 
 
