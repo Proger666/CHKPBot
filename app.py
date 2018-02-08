@@ -103,6 +103,7 @@ def processRequest(req):
     else:
         return {}
     res = speech
+    print("Speech is :")
     print(speech)
     return res
 
