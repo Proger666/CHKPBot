@@ -16,6 +16,7 @@
 
 from __future__ import print_function
 from future.standard_library import install_aliases
+
 install_aliases()
 
 from urllib.parse import urlparse, urlencode
@@ -31,6 +32,11 @@ from flask import make_response
 
 # Flask app should start in global layout
 app = Flask(__name__)
+
+
+@app.route('/', methods=['POST, GET'])
+def index():
+    return "Forbidden"
 
 
 @app.route('/webhook', methods=['POST'])
@@ -49,68 +55,39 @@ def webhook():
     return r
 
 
+def make_sizing(reqParam, dmz):
+    # Initial data
+    model = None
+    datasheet_link = None
+    #
+    # fill data from request
+    inetSpeed = reqParam.get("inet_speed")
+    users = reqParam.get("users")
+    #
+    print(reqParam)
+    return "Думаю тебе отлично подойдет вот эта модель - " + model + " смотри какая штука  - " + datasheet_link + " \n Но стоит уточнить у @russia"
+
+
+
 def processRequest(req):
     if req.get("result").get("action") == "yahooWeatherForecast":
         return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    yql_query = makeYqlQuery(req)
-    if yql_query is None:
+    ##
+    # baseurl = "https://query.yahooapis.com/v1/public/yql?"
+    result = None
+    reqParam = req.get("result").get("parameters")
+    if req.get("result").get("action") == "dmz-sizing":
+        speech = make_sizing(reqParam, False)
+    elif req.get("result").get("action") == "nondmz-sizing":
+        speech = make_sizing(reqParam, True)
+
+    else:
         return {}
-    yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
-    result = urlopen(yql_url).read()
-    data = json.loads(result)
-    res = makeWebhookResult(data)
+    res = speech
     return res
 
 
-def makeYqlQuery(req):
-    result = req.get("result")
-    parameters = result.get("parameters")
-    city = parameters.get("geo-city")
-    if city is None:
-        return None
 
-    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "')"
-
-
-def makeWebhookResult(data):
-    query = data.get('query')
-    if query is None:
-        return {}
-
-    result = query.get('results')
-    if result is None:
-        return {}
-
-    channel = result.get('channel')
-    if channel is None:
-        return {}
-
-    item = channel.get('item')
-    location = channel.get('location')
-    units = channel.get('units')
-    if (location is None) or (item is None) or (units is None):
-        return {}
-
-    condition = item.get('condition')
-    if condition is None:
-        return {}
-
-    # print(json.dumps(item, indent=4))
-
-    speech = "Today the weather in " + location.get('city') + ": " + condition.get('text') + \
-             ", And the temperature is " + condition.get('temp') + " " + units.get('temperature')
-
-    print("Response:")
-    print(speech)
-
-    return {
-        "speech": speech,
-        "displayText": speech,
-        # "data": data,
-        # "contextOut": [],
-        "source": "apiai-weather-webhook-sample"
-    }
 
 
 if __name__ == '__main__':
@@ -118,4 +95,4 @@ if __name__ == '__main__':
 
     print("Starting app on port %d" % port)
 
-    app.run(debug=False, port=port, host='0.0.0.0')
+    app.run(debug=False, port=port, host='0.0.0.0', ssl_context='adhoc')
