@@ -93,12 +93,16 @@ def processRequest(req):
         return {}
     ##
     # baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    result = None
+    print("we screwed")
     reqParam = req.get("result").get("parameters")
     if req.get("result").get("action") == "dmz-sizing":
         speech = make_sizing(reqParam, False)
+        print("we 1screwed")
+
     elif req.get("result").get("action") == "nondmz-sizing":
         speech = make_sizing(reqParam, True)
+        print("we 2screwed")
+
 
     else:
         return {}
