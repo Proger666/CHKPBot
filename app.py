@@ -47,7 +47,6 @@ def webhook():
     print(json.dumps(req, indent=4))
 
     res = processRequest(req)
-    print("speech: \n \n " + res)
     res = json.dumps(res, indent=4)
     # print(res)
     r = make_response(res)
@@ -64,8 +63,7 @@ def make_sizing(reqParam, dmz):
     # fill data from request
     inetSpeed = reqParam.get("inet_speed")
     users = reqParam.get("users")
-    inetSpeed = int(inetSpeed)
-    users = int(users)
+
     #
     if not dmz:
         if inetSpeed <= 100:
@@ -89,19 +87,16 @@ def make_sizing(reqParam, dmz):
 
 
 def processRequest(req):
-    if req.get("result").get("action") == "yahooWeatherForecast":
+    if req.get("queryResult").get("action") == "yahooWeatherForecast":
         return {}
     ##
     # baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    print("we screwed")
-    reqParam = req.get("result").get("parameters")
-    if req.get("result").get("action") == "dmz-sizing":
+    reqParam = req.get("queryResult").get("parameters")
+    if req.get("queryResult").get("action") == "dmz-sizing":
         speech = make_sizing(reqParam, False)
-        print("we 1screwed")
 
-    elif req.get("result").get("action") == "nondmz-sizing":
+    elif req.get("queryResult").get("action") == "nondmz-sizing":
         speech = make_sizing(reqParam, True)
-        print("we 2screwed")
 
 
     else:
