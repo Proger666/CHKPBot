@@ -59,6 +59,7 @@ def make_sizing(reqParam, dmz):
     # Initial data
     model = None
     datasheet_link = None
+    speech = {}
     #
     # fill data from request
     inetSpeed = reqParam.get("inet_speed")
@@ -79,8 +80,12 @@ def make_sizing(reqParam, dmz):
         elif inetSpeed >= 201:
             model = None
         if model is not None:
-            return "Думаю тебе отлично подойдет вот эта модель - " + model + " смотри какая штука  - " + datasheet_link + " \n Но стоит уточнить у @russia"
-    return "Ой, у тебя такие интересные параметры, напиши, пожалуйста, на russia@checkpoint.com - и тебе обязательно помогут!"
+            speech = "Думаю тебе отлично подойдет вот эта модель - " + model + " смотри какая штука  - " + datasheet_link + " \n Но стоит уточнить у @russia"
+    else:
+        speech = "Ой, у тебя такие интересные параметры, напиши, пожалуйста, на russia@checkpoint.com - и тебе обязательно помогут!"
+    return {"speech": speech,
+            "displayText": speech,
+            "source": "sizing"}
 
 
 def processRequest(req):
