@@ -66,20 +66,22 @@ def make_sizing(reqParam, dmz):
     inetSpeed = int(inetSpeed)
     users = int(users)
     #
-    if inetSpeed <= 100:
-        model = "3200"
-        datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-3200-appliance.pdf"
-    elif inetSpeed <= 150:
-        model = "5200"
-        datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-5200-appliance.pdf"
-    elif inetSpeed <= 200:
-        model = "5400"
-        datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-5400-appliance.pdf"
-    elif inetSpeed >= 201:
-        model = None
-    if model is not None:
-        return "Думаю тебе отлично подойдет вот эта модель - " + model + " смотри какая штука  - " + datasheet_link + " \n Но стоит уточнить у @russia"
+    if not dmz:
+        if inetSpeed <= 100:
+            model = "3200"
+            datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-3200-appliance.pdf"
+        elif inetSpeed <= 150:
+            model = "5200"
+            datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-5200-appliance.pdf"
+        elif inetSpeed <= 200:
+            model = "5400"
+            datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-5400-appliance.pdf"
+        elif inetSpeed >= 201:
+            model = None
+        if model is not None:
+            return "Думаю тебе отлично подойдет вот эта модель - " + model + " смотри какая штука  - " + datasheet_link + " \n Но стоит уточнить у @russia"
     return "Ой, у тебя такие интересные параметры, напиши, пожалуйста, на russia@checkpoint.com - и тебе обязательно помогут!"
+
 
 def processRequest(req):
     if req.get("result").get("action") == "yahooWeatherForecast":
