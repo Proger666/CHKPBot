@@ -48,7 +48,7 @@ def webhook():
 
     res = processRequest(req)
     res = json.dumps(res, indent=4)
-    # print(res)
+    print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
@@ -81,9 +81,9 @@ def make_sizing(reqParam, dmz):
             speech = "Думаю тебе отлично подойдет вот эта модель - " + model + " смотри какая штука  - " + datasheet_link + " \n Но стоит уточнить у @russia"
     else:
         speech = "Ой, у тебя такие интересные параметры, напиши, пожалуйста, на russia@checkpoint.com - и тебе обязательно помогут!"
-    return {"speech": speech,
-            "displayText": speech,
-            "source": "sizing"}
+    return {'speech': speech,
+            'displayText': speech,
+            'source': "sizing"}
 
 
 def processRequest(req):
