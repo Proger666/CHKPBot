@@ -85,7 +85,8 @@ def make_sizing(reqParam, dmz):
         {
         'speech': speech,
             'displayText': speech,
-            'source': "sizing"}      
+            'source': "sizing"} 
+    return res
 
 
 def processRequest(req):
