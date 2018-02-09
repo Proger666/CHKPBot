@@ -61,7 +61,7 @@ def make_sizing(reqParam, dmz):
     speech = {}
     #
     # fill data from request
-    inetSpeed = reqParam.get("inet_speed")
+    inetSpeed = reqParam.get("inetSpeed")
     users = reqParam.get("users")
 
     #
