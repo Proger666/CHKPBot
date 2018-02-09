@@ -84,13 +84,13 @@ def make_sizing(reqParam, dmz):
         if sumSpeed <= 250:
             model = "5200"
             datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-5200-appliance.pdf"
-        if sumSpeed <= 400:
+        elif sumSpeed <= 400:
             model = "5400"
             datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-5400-appliance.pdf"
-        if sumSpeed <= 600:
+        elif sumSpeed <= 600:
             model = "5600"
             datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-5600-appliance.pdf"
-        if sumSpeed <= 1200:
+        elif sumSpeed <= 1200:
             model = "5800"
             datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-5800-appliance.pdf"
     if model is not None:
