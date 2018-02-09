@@ -81,10 +81,19 @@ def make_sizing(reqParam, dmz):
             speech = "Думаю тебе отлично подойдет вот эта модель - " + model + " смотри какая штука  - " + datasheet_link + " \n Но стоит уточнить у @russia"
     else:
         speech = "Ой, у тебя такие интересные параметры, напиши, пожалуйста, на russia@checkpoint.com - и тебе обязательно помогут!"
-    res={
-        'speech': speech,
-            'displayText': speech,
-            'source': "sizing"} 
+    res = {
+        "fulfillmentText": speech,
+        "fulfillmentMessages": [
+            {
+                {
+                    "text": [
+                        speech
+                    ]
+                }
+            }
+        ],
+        "source": speech
+    }
     return res
 
 
