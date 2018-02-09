@@ -65,7 +65,7 @@ def make_sizing(reqParam, dmz):
     users = reqParam.get("users")
 
     #
-    if dmz:
+    if not dmz:
         if inetSpeed <= 100:
             model = "3200"
             datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-3200-appliance.pdf"
@@ -103,10 +103,10 @@ def processRequest(req):
     # baseurl = "https://query.yahooapis.com/v1/public/yql?"
     reqParam = req.get("queryResult").get("parameters")
     if req.get("queryResult").get("action") == "dmz-sizing":
-        speech = make_sizing(reqParam, False)
+        speech = make_sizing(reqParam, True)
 
     elif req.get("queryResult").get("action") == "nondmz-sizing":
-        speech = make_sizing(reqParam, True)
+        speech = make_sizing(reqParam, False)
 
 
     else:
