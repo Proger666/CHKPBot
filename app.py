@@ -82,13 +82,9 @@ def make_sizing(reqParam, dmz):
     else:
         speech = "Ой, у тебя такие интересные параметры, напиши, пожалуйста, на russia@checkpoint.com - и тебе обязательно помогут!"
     res = {
-        "fulfillmentText": speech,
-        "fulfillmentMessages": [
-            {
-                "text": speech
-            }
-        ],
-        "source": "sizing"
+        "source": "webhook",
+        "displayText": "The current stock price for google is x USD",
+        "speech": "The current stock price for google is x USD"
     }
     return res
 
