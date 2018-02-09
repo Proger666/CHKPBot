@@ -65,7 +65,7 @@ def make_sizing(reqParam, dmz):
     users = reqParam.get("users")
 
     #
-    if not dmz:
+    if dmz:
         if inetSpeed <= 100:
             model = "3200"
             datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-3200-appliance.pdf"
@@ -80,7 +80,7 @@ def make_sizing(reqParam, dmz):
         if model is not None:
             speech = "Думаю тебе отлично подойдет вот эта модель - " + model + " смотри какая штука  - " + datasheet_link + " \n Но стоит уточнить у @russia"
     else:
-        speech = "Ой, у тебя такие интересные параметры, напиши, пожалуйста, на russia@checkpoint.com - и тебе обязательно помогут!"
+        speech = "Ой, у тебя такие интересные параметры, я так пока не умею :( Напиши, пожалуйста, на russia@checkpoint.com - и тебе обязательно помогут!"
     res = {
         "fulfillmentMessages": [
             {
