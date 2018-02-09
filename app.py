@@ -86,9 +86,10 @@ def make_sizing(reqParam, dmz):
   "fulfillmentText": speech,
   "fulfillmentMessages": [
     {
+        {
         'speech': speech,
             'displayText': speech,
-            'source': "sizing"
+            'source': "sizing"}
     }
   ],
   "source": "sizing"
