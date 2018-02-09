@@ -80,6 +80,7 @@ def make_sizing(reqParam, dmz):
 
     elif dmz:
         sumSpeed = dmzSpeed + inetSpeed
+        print(sumSpeed)
         if sumSpeed <= 250:
             model = "5200"
             datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-5200-appliance.pdf"
@@ -92,10 +93,11 @@ def make_sizing(reqParam, dmz):
         if sumSpeed <= 1200:
             model = "5800"
             datasheet_link = "https://www.checkpoint.com/downloads/product-related/datasheets/ds-5800-appliance.pdf"
-    else:
-        speech = "Ой, у тебя такие интересные параметры, я так пока не умею :( Напиши, пожалуйста, на russia@checkpoint.com - и тебе обязательно помогут!"
     if model is not None:
-        speech = "Думаю тебе отлично подойдет вот эта модель - " + model + " смотри какая штука  - " + datasheet_link + " \n Но стоит уточнить у russia@checkpoint.com"
+         speech = "Думаю тебе отлично подойдет вот эта модель - " + model + " смотри какая штука  - " + datasheet_link + " \n Но стоит уточнить у russia@checkpoint.com"
+    else:
+         speech = "Ой, у тебя такие интересные параметры, я так пока не умею :( Напиши, пожалуйста, на russia@checkpoint.com - и тебе обязательно помогут!"
+        
     res = {
         "fulfillmentMessages": [
             {
