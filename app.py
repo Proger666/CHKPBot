@@ -82,9 +82,19 @@ def make_sizing(reqParam, dmz):
     else:
         speech = "Ой, у тебя такие интересные параметры, напиши, пожалуйста, на russia@checkpoint.com - и тебе обязательно помогут!"
     res = {
-        "source": "webhook",
-        "displayText": "The current stock price for google is x USD",
-        "speech": "The current stock price for google is x USD"
+        "fulfillmentMessages": [
+            {
+                "platform": "ACTIONS_ON_GOOGLE",
+                "simpleResponses": {
+                    "simpleResponses": [
+                        {
+                            "displayText": "Sorry, something went wrong",
+                            "ssml": "<speak>Sorry, Something went wrong <break time=\"200ms\"/> Please try again later</speak>"
+                        }
+                    ]
+                }
+            }
+        ]
     }
     return res
 
