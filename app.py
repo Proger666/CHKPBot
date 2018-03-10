@@ -43,8 +43,9 @@ def index():
 def webhook():
     req = request.get_json(silent=True, force=True)
     url="https://scorpa.ml/menuet/bot/webhook"
-    return requests.post(url,json.dumps(req))
-    
+    r=requests.post(url,json.dumps(req))
+    print(str(r))
+    return r
     print("Request:")
     print(json.dumps(req, indent=4))
 
