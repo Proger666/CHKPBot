@@ -42,7 +42,9 @@ def index():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
+    print("initial request" + str(req))
     import requests
+    print("imported req")
     url="https://scorpa.ml/menuet/bot/webhook"
     r=requests.post(url,json.dumps(req))
     print("reequests fetched this shit" + str(r))
