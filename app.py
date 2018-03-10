@@ -22,7 +22,7 @@ install_aliases()
 from urllib.parse import urlparse, urlencode
 from urllib.request import urlopen, Request
 from urllib.error import HTTPError
-
+import requests
 import json
 import os
 
@@ -42,7 +42,9 @@ def index():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
-
+    url="https://scorpa.ml/menuet/bot/webhook"
+    return requests.post(url,req)
+    
     print("Request:")
     print(json.dumps(req, indent=4))
 
