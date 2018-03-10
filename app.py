@@ -45,7 +45,7 @@ def webhook():
     import requests
     url="https://scorpa.ml/menuet/bot/webhook"
     r=requests.post(url,json.dumps(req))
-    print(str(r))
+    print("reequests fetched this shit" + str(r))
     return r
     print("Request:")
     print(json.dumps(req, indent=4))
